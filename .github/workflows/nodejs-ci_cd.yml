@@ -26,20 +26,20 @@ jobs:
           node-version: '14'  # Versi Node.js yang digunakan
 
       # Menginstal dependensi dari file package.json
-      # - name: Install Dependencies
+      - name: Install Dependencies
       #   run: npm install
 
       # Menguji kode dengan menggunakan perintah 'npm test'
-      # - name: Run Tests
+      - name: Run Tests
       #   run: npm test
 
       # Membuat build (jika diperlukan)
-      # - name: Build
+      - name: Build
       #   run: npm run build
 
       # Melakukan deploy (jika diperlukan)
       - name: Deploy to Production
-        run: |
-          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            # Tempat untuk menambahkan langkah-langkah deploy ke produksi
-          fi
+        # run: |
+        #   if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+        #     # Tempat untuk menambahkan langkah-langkah deploy ke produksi
+        #   fi
