@@ -1,0 +1,45 @@
+# Nama workflow, digunakan sebagai identifier di GitHub Actions
+name: Node.js CI/CD Workflow
+
+# Menentukan kapan workflow akan dijalankan
+on:
+  push:
+    branches:
+      - main  # Ganti dengan nama branch utama Anda
+
+# Definisi dari job-job yang akan dijalankan
+jobs:
+  build:
+    # Jenis runner yang digunakan
+    runs-on: ubuntu-latest
+
+    # Langkah-langkah yang akan dijalankan
+    steps:
+      # Mengambil kode dari repositori GitHub
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # Mengatur Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Versi Node.js yang digunakan
+
+      # Menginstal dependensi dari file package.json
+      - name: Install Dependencies
+        run: npm install
+
+      # Menguji kode dengan menggunakan perintah 'npm test'
+      - name: Run Tests
+        run: npm test
+
+      # Membuat build (jika diperlukan)
+      - name: Build
+        run: npm run build
+
+      # Melakukan deploy (jika diperlukan)
+      - name: Deploy to Production
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            # Tempat untuk menambahkan langkah-langkah deploy ke produksi
+          fi
