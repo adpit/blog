@@ -1,6 +1,5 @@
 name: Docs CI/CD
 
-# Tentukan kapan workflow ini dijalankan
 on:
   push:
     branches:
@@ -33,10 +32,10 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: "Automated Docs Update"
-          title: "Automated Docs Update"
-          body: "Automatic PR to update the docs"
-          branch: "auto-update-docs"
+          commit-message: ${{ github.event.head_commit.message }}
+          title: "Auto PR from ${{ github.event.ref }}"
+          body: "Automatic PR from ${{ github.event.ref }}"
+          branch: ${{ github.head_ref }}
 
       - name: Auto Merge
         if: steps.cpr.outputs.pull-request-number != ''
