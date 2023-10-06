@@ -1,0 +1,41 @@
+# Nama workflow, digunakan sebagai identifier di GitHub Actions
+name: Python CI/CD Workflow
+
+# Menentukan kapan workflow akan dijalankan
+on:
+  push:
+    branches:
+      - main  # Ganti dengan nama branch utama Anda
+
+# Definisi dari job-job yang akan dijalankan
+jobs:
+  build:
+    # Jenis runner yang digunakan
+    runs-on: ubuntu-latest
+
+    # Langkah-langkah yang akan dijalankan
+    steps:
+      # Mengambil kode dari repositori GitHub
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # Mengatur Python
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'  # Versi Python yang digunakan
+
+      # Menginstal dependensi dari file requirements.txt
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      # Menguji kode dengan menggunakan perintah 'python -m unittest'
+      - name: Run Tests
+        run: python -m unittest discover
+
+      # Melakukan deploy (jika diperlukan)
+      - name: Deploy to Production
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            # Tempat untuk menambahkan langkah-langkah deploy ke produksi
+          fi
