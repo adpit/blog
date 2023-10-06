@@ -1,20 +1,26 @@
+# Nama dari workflow, berguna untuk identifikasi di GitHub Actions
 name: Docs CI/CD
 
+# Tentukan kapan workflow ini dijalankan
 on:
-  push:
-    branches:
-      - main
+  pull_request:
     paths:
       - '**.md'
       - '**.txt'
 
+# Definisi dari job yang akan dijalankan
 jobs:
-  autoPRAndMerge:
+  check_docs:
+    # Jenis runner yang akan digunakan
     runs-on: ubuntu-latest
+
+    # Langkah-langkah yang akan dijalankan dalam job ini
     steps:
+      # Mengambil kode dari repositori
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      # Memastikan file `.txt` dan `.md` tidak konflik
       - name: Check for Merge Conflicts
         run: |
           git fetch origin main:main
@@ -23,21 +29,16 @@ jobs:
             echo "Merge conflict detected. Please resolve."
             exit 1
           fi
-
+          
+      # Memastikan format file `.md` (Anda bisa memasukkan pengecekan format di sini)
       - name: Check Markdown Format
         run: |
+          # Tambahkan perintah untuk memeriksa format .md di sini
           echo "Pengecekan format Markdown dijalankan. (Tambahkan perintah sesuai kebutuhan)"
 
-      - name: Create Pull Request
-        id: cpr
-        uses: peter-evans/create-pull-request@v3
-        with:
-          commit-message: ${{ github.event.head_commit.message }}
-          title: "Auto PR from ${{ github.event.ref }}"
-          body: "Automatic PR from ${{ github.event.ref }}"
-          branch: ${{ github.head_ref }}
-
+      # Jika semua pemeriksaan berhasil, lakukan merge (hanya untuk contoh)
       - name: Auto Merge
-        if: steps.cpr.outputs.pull-request-number != ''
         run: |
-          gh pr merge "${{ steps.cpr.outputs.pull-request-number }}" --merge
+          git switch main
+          git merge --no-ff "${{ github.head_ref }}"
+          git push origin main
