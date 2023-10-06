@@ -1,0 +1,41 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main  # Ganti dengan nama cabang utama Anda
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Environment
+      run: |
+        # Langkah untuk mengatur lingkungan dan dependensi yang diperlukan
+        # Contoh: Mengatur Node.js
+        # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+        # nvm install 14
+
+    - name: Install Dependencies
+      run: |
+        # Langkah untuk menginstal dependensi atau paket yang dibutuhkan
+        # Contoh: Menginstal paket Python
+        # pip install -r requirements.txt
+
+    - name: Build and Test
+      run: |
+        # Langkah untuk melakukan kompilasi, pengujian, dan lainnya
+        # Contoh: Menjalankan tes Python
+        # python -m unittest discover -s tests
+
+    - name: Deploy to Production
+      run: |
+        if [ ${{ github.ref }} == 'refs/heads/main' ]; then
+          # Langkah-langkah untuk melakukan deployment ke produksi (jika diperlukan)
+          # Tambahkan langkah-langkah khusus untuk deployment di sini
+        fi
+
